@@ -23,25 +23,25 @@ int GetBit(int X, int i)
 
 void stringToBit(string str, int daybit[])
 {
-	for (int i = 0; i < 128; i++) {
+	for (int i = 0; i < 128; i++) { // Gán dãy bit ban đầu bằng 0
 		daybit[i] = 0;
 	}
 	int leng = str.length();
 	int* songuyenlon = new int[100];
 	int t = 0;
-	if (str.compare(0, 1, "-") == 0) {
+	if (str.compare(0, 1, "-") == 0) {//Nếu là số âm thì trừ độ dài số trừ đi 1
 		leng = leng - 1;
 		t = 1;
 	}
 	for (int i = 0; i < leng; i++) {
-		songuyenlon[i] = (int)str[i + t] - 48;
+		songuyenlon[i] = (int)str[i + t] - 48; // Biến đổi chuỗi thành số và lưu trong mảng
 	}
 	int dem = 0;
 	for (int j = 0; ; j++) {
 		dem = 0;
-		if (songuyenlon[leng - 1] % 2 != 0)
+		if (songuyenlon[leng - 1] % 2 != 0) // Gán bít bằng 1 nếu số cuối lẻ
 			daybit[127 - j] = 1;
-		for (int l = 0; l < leng; l++) {
+		for (int l = 0; l < leng; l++) { //Chia mảng số nguyên cho 2
 			if (songuyenlon[l] % 2 != 0)
 				songuyenlon[l + 1] = songuyenlon[l + 1] + 10;
 			songuyenlon[l] = songuyenlon[l] / 2;
@@ -49,11 +49,11 @@ void stringToBit(string str, int daybit[])
 				dem++;
 			}
 		}
-		if (dem == leng) {
+		if (dem == leng) { // Mảng số nguyên bằng 0 thì dừng
 			break;
 		}
 	}
-	if (str.compare(0, 1, "-") == 0) {
+	if (str.compare(0, 1, "-") == 0) { // Nếu là số âm thì đảo bit, cộng 1 để chuyển về dạng bù 2
 		for (int i = 0; i < 128; i++) {
 			if (daybit[i] == 0) daybit[i] = 1;
 			else daybit[i] = 0;
@@ -82,17 +82,17 @@ void ScanQInt(QInt& x, string str)
 
 	for (int i = 0; i < 128; i++) {
 		if (daybit[i] == 1) {
-			setBit1(x.data[i / 32], i % 32);
+			setBit1(x.data[i / 32], i % 32); // Gán dãy bít vào QInt
 		}
 	}
 	cout << "Dang nhi phan:" << endl;
-	for (int i = 0; i < 128; i++) {
-		cout << GetBit(x.data[i / 32], i % 32);
+	for (int i = 0; i < 128; i++) { 
+		cout << GetBit(x.data[i / 32], i % 32); // In dãy QInt ra màn hình
 
 	}
 }
 
-void qIntToDayBit(QInt x, int daybit[])
+void qIntToDayBit(QInt x, int daybit[]) // Gán dãy bit trong QInt vào mảng số nguyên
 {
 	for (int i = 0; i < 128; i++) {
 		if (GetBit(x.data[i / 32], i % 32) == 1) {
@@ -110,10 +110,10 @@ void setMangKhong(int mang[100])
 		mang[i] = 0;
 	}
 }
-void tinhHaiMuX(int dayso[100], int x)
+void tinhHaiMuX(int dayso[100], int x)// Tính 2 mũ x
 {
 	setMangKhong(dayso);
-	if (x == 0) {
+	if (x == 0) { // 2 mũ 0 bằng 1
 		dayso[99] = 1;
 		return;
 	}
@@ -168,7 +168,7 @@ string PrintQInt(QInt x)
 
 	int kq[100];
 	setMangKhong(kq);
-	int temp[100];
+	int temp[100]; // Dùng temp để lưu các số 2 mũ x và cộng dồn chúng vào kết quả
 	setMangKhong(temp);
 
 	for (int i = 1; i < 128; i++) {
@@ -178,21 +178,21 @@ string PrintQInt(QInt x)
 		}
 	}
 	
-	if (daybit[0] == 1) {
+	if (daybit[0] == 1) { // Xử lý nếu là số âm
 		tinhHaiMuX(temp, 127);
-		truHaiDayBit(kq, temp);
+		truHaiDayBit(kq, temp);// Lấy 2 mũ 127 trừ đi kq
 		for (int i = 0; i < 100; i++) {
 			kq[i] = temp[i];
 		}
 	}
 	int i = 0;
-	for (i = 0; i < 100; i++) {
+	for (i = 0; i < 100; i++) {// Bỏ qua các số 0 trong dãy 100 số in ra
 		if (kq[i] != 0) break;
 	}
-	if (daybit[0] == 1) {
+	if (daybit[0] == 1) {// Nếu là số âm thì hiện thêm dấu trừ ra màn hình
 		kq[i] = kq[i] * -1;
 	}
-	cout << "Dang thap phan: " << endl;
+	cout << "Dang thap phan: " << endl;// In chuỗi số ra màn hình
 	for (int j = i; j < 100; j++) {
 		cout << kq[j];
 	}
