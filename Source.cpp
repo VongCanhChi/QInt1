@@ -28,49 +28,32 @@ void stringToBit(string str, int daybit[])
 	}
 	int leng = str.length();
 	int* songuyenlon = new int[100];
-	if (str.compare(0, 1, "-") != 0) {
-		for (int i = 0; i < leng; i++) {
-			songuyenlon[i] = (int)str[i] - 48;
+	int t = 0;
+	if (str.compare(0, 1, "-") == 0) {
+		leng = leng - 1;
+		t = 1;
+	}
+	for (int i = 0; i < leng; i++) {
+		songuyenlon[i] = (int)str[i + t] - 48;
+	}
+	int dem = 0;
+	for (int j = 0; ; j++) {
+		dem = 0;
+		if (songuyenlon[leng - 1] % 2 != 0)
+			daybit[127 - j] = 1;
+		for (int l = 0; l < leng; l++) {
+			if (songuyenlon[l] % 2 != 0)
+				songuyenlon[l + 1] = songuyenlon[l + 1] + 10;
+			songuyenlon[l] = songuyenlon[l] / 2;
+			if (songuyenlon[l] == 0) {
+				dem++;
+			}
 		}
-		int dem = 0;
-		for (int j = 0; ; j++) {
-			dem = 0;
-			if (songuyenlon[leng - 1] % 2 != 0)
-				daybit[127 - j] = 1;
-			for (int l = 0; l < leng; l++) {
-				if (songuyenlon[l] % 2 != 0)
-					songuyenlon[l + 1] = songuyenlon[l + 1] + 10;
-				songuyenlon[l] = songuyenlon[l] / 2;
-				if (songuyenlon[l] == 0) {
-					dem++;
-				}
-			}
-			if (dem == leng) {
-				break;
-			}
+		if (dem == leng) {
+			break;
 		}
 	}
-	else {
-		for (int i = 0; i < leng - 1; i++) {
-			songuyenlon[i] = (int)str[i + 1] - 48;
-		}
-		int dem = 0;
-		for (int j = 0; ; j++) {
-			dem = 0;
-			if (songuyenlon[leng - 2] % 2 != 0)
-				daybit[127 - j] = 1;
-			for (int l = dem; l < leng - 1; l++) {
-				if (songuyenlon[l] % 2 != 0)
-					songuyenlon[l + 1] = songuyenlon[l + 1] + 10;
-				songuyenlon[l] = songuyenlon[l] / 2;
-				if (songuyenlon[l] == 0) {
-					dem++;
-				}
-			}
-			if (dem == leng - 1) {
-				break;
-			}
-		}
+	if (str.compare(0, 1, "-") == 0) {
 		for (int i = 0; i < 128; i++) {
 			if (daybit[i] == 0) daybit[i] = 1;
 			else daybit[i] = 0;
