@@ -128,7 +128,7 @@ void tinhHaiMuX(int dayso[100], int x)// Tính 2 mũ x
 			}
 			else {
 				dayso[k] = (2 * dayso[k] - 10) + m;
-				m = 1;
+				m = 1;// Lớn hơn 10 thì nhớ 1
 			}
 		}
 	}
